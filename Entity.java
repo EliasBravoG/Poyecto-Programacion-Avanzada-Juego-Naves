@@ -15,15 +15,23 @@ public abstract class Entity {
         this.texture = texture;
     }
 
-    public void render(SpriteBatch batch) {
-        batch.draw(texture, x, y);
+    // TEMPLATE METHOD
+    public final void update(SpriteBatch batch, float delta) {
+        move(delta);      // Paso 1: movimiento (definido por subclase)
+        render(batch);    // Paso 2: renderizado (definido por subclase)
+        checkStatus();    // Paso 3: comportamiento común
     }
 
-    public abstract void move(float deltaTime);
+    // Métodos abstractos a implementar en subclases
+    protected abstract void move(float delta);
+    protected abstract void render(SpriteBatch batch);
 
-    public abstract void update(float deltaTime);
+    // Método común opcional
+    protected void checkStatus() {
+        if (speed < 0) speed = 0; // simple chequeo común
+    }
 
-    // Getters y setters para encapsulamiento
+    // Getters / Setters
     public float getX() { return x; }
     public float getY() { return y; }
     public void setX(float x) { this.x = x; }
